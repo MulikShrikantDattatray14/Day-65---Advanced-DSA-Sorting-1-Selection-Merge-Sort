@@ -1,0 +1,48 @@
+For details about time and space complexity : https://iq.opengenus.org/time-complexity-of-merge-sort/
+
+
+
+let A = [2, 3, 4, 5, 67, 8, 9, 12, 23]
+
+countMerge(A, 0, A.length - 1);
+
+console.log(A)
+function countMerge(A, s, e) {
+    if(s == e) return;
+    let m = (s + e) / 2;
+    countMerge(A, s, m);
+    countMerge(A, m + 1, e);
+    sortedMerge(A, s, m, m + 1, e);
+}
+   function  sortedMerge( A, p1,  n,  p2,  m){
+        let size = m - p1 + 1;
+       let start = p1;
+        let C =[];
+       let  p3 = 0;
+    while (p1 <= n && p2 <= m) {
+        if (A[p1] > A[p2]) {
+            C[p3] = A[p2];
+            p2++;
+            p3++;
+            
+        }
+        else {
+            C[p3] = A[p1];
+            p3++;
+            p1++;
+        }
+    }
+    while (p1 <= n) {
+        C[p3] = A[p1];
+        p1++;
+        p3++;
+    }
+    while (p2 <= m) {
+        C[p3] = A[p2];
+        p3++;
+        p2++;
+    }
+    for (let i = 0; i < size; i++) {
+        A[start + i] = C[i];
+    }
+}

@@ -54,72 +54,59 @@ Explanation 2:
 CODE: (JAVA)
 
 public class Solution {
-    int reversePair = 0;
-
+    public int cnt;
     public int solve(int[] A) {
-        int n = A.length;
-        mergeSort(A,0,n-1);
-        return reversePair;
-    }
-    //merge sort function to split the array into individual elements
-    public void mergeSort(int[] A, int s, int e){
-        if(s >= e) return;
-        int mid = (s+e)/2;
-        mergeSort(A,s,mid);
-        mergeSort(A,mid+1,e);
-        merge(A,s,mid,e);
+        cnt=0 ;
+        int n=A.length ;
+        mergeSort(A,0,n-1) ;
+        return cnt;
     }
 
-    //main merge function
-    public void merge(int[] A, int s, int mid, int e){
-        int n1 = mid - s + 1; //number of elements in array1
-        int n2 = e - mid;//number of elements in array2
-        int A1[] = new int[n1];
-        int A2[] = new int[n2];
-        int index = 0;
-
-        //filling A1 and A2
-        for(int i = s; i <= mid; i++)
-            A1[index++] = A[i];
-
-        index = 0;
-        for(int i = mid+1; i <= e; i++)
-            A2[index++] = A[i];
-       
-        int i = 0, j = 0; // i and j referncing A1 and A2 array respectively
-
-        //checking A[i] > 2*A[j] remember merge didnot happened yet
-        while(i < n1 && j < n2){
-            if((long)A1[i] > 2 * (long)A2[j]){ //handle overflow
-                reversePair =  reversePair + (n1-i);
-                j++;
+    public  void mergeSort(int ar[],int s,int e){
+        if(s==e)
+            return ;
+        int m=(s+e)/2 ;
+        mergeSort(ar,s,m) ;
+        mergeSort(ar,m+1,e) ;
+        int l=s,le=m,r=m+1,re=e;
+        double x,y ;
+        while(l<=le && r<=re){
+            x=ar[l];
+            y=ar[r];
+            if(x/2 >y){
+                cnt+=le-l+1;
+                r++;
             }
             else
-                i++;
+                l++;
         }
-
-        //merging A1 and A2 in sorted manner
-
-        i = 0; j = 0; // i and j referncing A1 and A2 array respectively
-        index = s; // important because using the original input array
-
-        while(i < n1 && j < n2){
-            if(A1[i] < A2[j]){ // equals to condition for equal elements
-                A[index++] = A1[i++];
+        int temp[]=new int [e-s+1];
+        int p1=s,p2=m+1,p3=0;
+        while(p1<=m && p2<=e){
+            if(ar[p1]<ar[p2]){
+                temp[p3]=ar[p1];
+                p1++;
+                p3++;
             }
             else{
-                A[index++] = A2[j++];
+                temp[p3]=ar[p2];
+                p2++;
+                p3++;
             }
         }
-        //if some elements still remaining after traversal
-       
-            while(i < n1){
-                A[index++] = A1[i++];
-            }
-       
-            while(j < n2){
-                A[index++] = A2[j++];
-            }
-        
+        while(p1<=m){
+            temp[p3]=ar[p1];
+            p1++;
+            p3++;
+        }
+        while(p2<=e){
+            temp[p3]=ar[p2];
+            p2++;
+            p3++;
+        }
+
+        for(int i=0;i<e-s+1;i++){
+            ar[s+i]=temp[i] ;
+        }
     }
 }

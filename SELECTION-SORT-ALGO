@@ -1,0 +1,24 @@
+let A = [2, 1, 4, 3, 2]
+let n = A.length;
+for(let i=0;i< n-1;i++){
+    let min = A[i];
+    let index=i;
+    let temp=0;
+    for(let j=i;j<n;j++){
+        if(A[j]<min){
+            min = A[j];
+            index= j;
+        }
+
+    }
+    temp=A[index];
+    A[index]=A[i];
+    A[i]= temp;
+}
+console.log(A)
+
+
+Worst Case Time Complexity is: O(N^2)
+Average Case Time Complexity is: O(N^2)
+Best Case Time Complexity is: O(N^2)
+Space Complexity: O(1)
